@@ -1,8 +1,14 @@
 CC=gcc
 CFLAGS=-Wall -I. -pedantic -g
 
-__start__: main
-	./main.out
+__start__: ./main
+	./main
 
-main: main.c
-	${CC} ${CFLAGS} -o main.out  main.c 
+main: main.c PGMimage.o PPMimage.o
+	${CC} ${CFLAGS} -o $@ $^
+
+%.o: %.c
+	${CC} ${CFLAGS} -c $^ -o $@
+
+clean:
+	rm -f main *.o
