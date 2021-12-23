@@ -127,7 +127,7 @@ void writePGM(const char* file_name, const PGMimage* image)
     }
 
     fclose(PGM_file);
-    deallocate_dynamic_matrix(image->matrix, image->row);
+    //deallocate_dynamic_matrix(image->matrix, image->row);
 }
 
 // function shows chosen image (ImageMagick required (for Linux))
@@ -139,4 +139,11 @@ void show(const char* file_name)
     strcat(command, " &");
     //printf("%s\n", command);
     system(command);
-} 
+}
+
+void negative(PGMimage* image)
+{
+    for(int i=0; i<image->row; ++i)
+        for(int j=0; j<image->col; ++j)
+            image->matrix[i][j] = image->max_gray - image->matrix[i][j];
+}

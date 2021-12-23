@@ -2,19 +2,8 @@
 #include <stdbool.h>
 #include "PPMimage.h"
 #include "PGMimage.h"
+#include "Handler.h"
 
-typedef struct {
-
-    bool isLoaded;
-    bool isSaved;
-
-} Handler;
-
-void init_Handler(Handler* h)
-{
-    h->isLoaded = false;
-    h->isSaved = false;
-}
 
 int main(int argc, char* argv[])
 {
@@ -30,6 +19,7 @@ int main(int argc, char* argv[])
     printf("\t1 - Load an image\n");
     printf("\t2 - Save an image\n");
     printf("\t3 - Show saved image\n");
+    printf("\t4 - Negative\n");
     printf("\t0 - Exit\n");
 
     while(input != '0') {
@@ -39,8 +29,11 @@ int main(int argc, char* argv[])
         switch (input)
         {
         case '1':
+            if(handler.isLoaded == true) {
+                printf("This action will override current image.\n");
+            }
             printf("Loading image...\n");
-            image_out = readPGM("images/PGM/Lena.pgm", &image_in);
+            image_out = readPGM("images/PGM/Lena2.pgm", &image_in);
             handler.isLoaded = true;
             break;
 
@@ -51,6 +44,7 @@ int main(int argc, char* argv[])
             }
             printf("Saving an image...\n");
             writePGM(file_path, image_out);
+            handler.isSaved = true;
             break;
         
         case '3':
@@ -61,10 +55,20 @@ int main(int argc, char* argv[])
             show(file_path);
             break;
 
+        case '4':
+            if(handler.isLoaded == false) {
+                printf("You need to load image first!\n");
+                break;
+            }
+            printf("Performing transformation\n");
+            negative(image_out);
+            break;
+
         case '0':
             break;
 
         default:
+            deallocate_dynamic_matrix(image_out->matrix, image_out->row);  // deallocation here, bc user may not want to forget current image
             printf("Please choose other option\n");
             break;
         }

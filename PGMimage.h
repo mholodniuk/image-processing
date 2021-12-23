@@ -18,5 +18,6 @@ void skip_comments_mucha(FILE *fp);
 PGMimage* readPGM(const char* file_name, PGMimage* image);
 void writePGM(const char* file_name, const PGMimage* image);
 void show(const char* file_name);
+void negative(PGMimage* image);
 
 #endif
