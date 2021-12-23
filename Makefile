@@ -5,7 +5,7 @@ __start__: ./main
 	./main
 
 main: main.c PGMimage.o PPMimage.o Handler.o
-	${CC} ${CFLAGS} -o $@ $^
+	${CC} ${CFLAGS} -o $@ $^ -lm
 
 %.o: %.c
 	${CC} ${CFLAGS} -c $^ -o $@

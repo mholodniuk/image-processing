@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 // function allocates 2D array for a PGM image
 int** allocate_dynamic_matrix(int row, int col)
@@ -70,7 +71,7 @@ void skip_comments_mucha(FILE *fp)
 }
 
 // function reads an image into PGMimage struct
-PGMimage* readPGM(const char* file_name, PGMimage* image)
+void readPGM(const char* file_name, PGMimage* image)
 {
     FILE* PGM_file;
     char version[3];
@@ -101,7 +102,6 @@ PGMimage* readPGM(const char* file_name, PGMimage* image)
                 exit(EXIT_FAILURE);
             }
     fclose(PGM_file);
-    return image;
 }
 
 void writePGM(const char* file_name, const PGMimage* image)
@@ -146,4 +146,56 @@ void negative(PGMimage* image)
     for(int i=0; i<image->row; ++i)
         for(int j=0; j<image->col; ++j)
             image->matrix[i][j] = image->max_gray - image->matrix[i][j];
+}
+
+void thresholding(PGMimage* image, float level)
+{
+    if(level<=0) {
+        perror("Thresholding level can not be negative!");  //change for abs(level<0)
+        exit(EXIT_FAILURE);
+    }
+    int th_level = (int)(image->max_gray*(level/100));
+
+    for(int i=0; i<image->row; ++i)
+        for(int j=0; j<image->col; ++j) {
+            if(image->matrix[i][j] <= th_level) image->matrix[i][j] = 0;
+            if(image->matrix[i][j] > th_level) image->matrix[i][j] = image->max_gray;
+        }
+}
+
+void gamma_corection(PGMimage* image, float gamma)
+{
+    if(gamma<=0) {
+        perror("Gamma correction ratio can not be negative!");  //change for abs(level<0)
+        exit(EXIT_FAILURE);
+    }
+    for(int i=0; i<image->row; ++i)
+        for(int j=0; j<image->col; ++j)
+            image->matrix[i][j] = pow((double)image->matrix[i][j]/image->max_gray, 1/gamma)*image->max_gray;
+}
+
+void contouring(PGMimage* image)
+{
+    int x, y;
+    for(int i=0; i<image->row; ++i)
+        for(int j=0; j<image->col; ++j) {
+            if(i+1<image->row) {
+                x = abs(image->matrix[i+1][j] - image->matrix[i][j]);
+            } else x = 0;
+            if(j+1<image->col) {
+                y = abs(image->matrix[i][j+1] - image->matrix[i][j]);
+            } else y = 0;
+            image->matrix[i][j] = x + y;
+        }
+}
+
+void horizontal_blur(PGMimage* image)
+{
+    for(int i=0; i<image->row; ++i)
+        for(int j=0; j<image->col; ++j) {
+            if(i+2<image->row && i>1) {
+                image->matrix[i][j] = (int)(0.16667*(image->matrix[i-2][j] + image->matrix[i-1][j] 
+                    + image->matrix[i][j] + image->matrix[i+1][j] + image->matrix[i+2][j]));
+            }
+        }
 }
