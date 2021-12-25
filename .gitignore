@@ -54,3 +54,6 @@ dkms.conf
 
 # VS Code
 .vscode
+
+# PDF files
+pdf/*
