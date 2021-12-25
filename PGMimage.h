@@ -1,6 +1,9 @@
 #ifndef PGMIMAGE_H
 #define PGMIMAGE_H
 
+#define MAX_PIXEL_VALUE 255
+#define MIN_PIXEL_VALUE 0
+
 #include <stdio.h>
 
 typedef struct
@@ -22,6 +25,8 @@ void negative(PGMimage* image);
 void thresholding(PGMimage* image, float level);
 void gamma_corection(PGMimage* image, float gamma);
 void contouring(PGMimage* image);
-void horizontal_blur(PGMimage* image);
+void horizontal_blur(PGMimage* image, int range);
+void histogram_stretching(PGMimage* image);
+
 
 #endif

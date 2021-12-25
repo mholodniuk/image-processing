@@ -9,6 +9,7 @@
 int main(int argc, char* argv[])
 {
     const char* file_path = "images/tests/test.pgm";
+    const char* input_image = "images/PGM/kubus.pgm";
     char input = 0;
 
     Handler* handler = malloc(sizeof(Handler));
@@ -25,6 +26,7 @@ int main(int argc, char* argv[])
     printf("\t6 - Gamma correction\n");
     printf("\t7 - Contouring\n");
     printf("\t8 - Horizontal blur\n");
+    printf("\t9 - Histogram stretching\n");
     printf("\t0 - Exit\n");
 
     while(input != '0') {
@@ -38,7 +40,7 @@ int main(int argc, char* argv[])
                 printf("This action will override current image.\n");
             }
             printf("Loading image...\n");
-            readPGM("images/PGM/Lena.pgm", img);
+            readPGM(input_image, img);
             handler->isLoaded = true;
             break;
 
@@ -103,7 +105,16 @@ int main(int argc, char* argv[])
                 break;
             }
             printf("Performing transformation - blur\n");
-            horizontal_blur(img);
+            horizontal_blur(img, 2);
+            break;  
+
+        case '9':
+            if(handler->isLoaded == false) {
+                printf("You need to load image first!\n");
+                break;
+            }
+            printf("Performing transformation - histogram stretching\n");
+            histogram_stretching(img);
             break;  
 
         case '0':

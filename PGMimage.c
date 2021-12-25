@@ -189,13 +189,39 @@ void contouring(PGMimage* image)
         }
 }
 
-void horizontal_blur(PGMimage* image)
+// does not work, but previous version worked ???
+void horizontal_blur(PGMimage* image, int range)
 {
-    for(int i=0; i<image->row; ++i)
+    int tmp = 0;
+    for(int i=0; i<image->row; ++i) {
         for(int j=0; j<image->col; ++j) {
-            if(i+2<image->row && i>1) {
-                image->matrix[i][j] = (int)(0.16667*(image->matrix[i-2][j] + image->matrix[i-1][j] 
-                    + image->matrix[i][j] + image->matrix[i+1][j] + image->matrix[i+2][j]));
+            if(i+range<image->row && i>range-1)
+            {
+                for(int k=0; k<range; ++k) {
+                    tmp += (image->matrix[i+k][j] + image->matrix[i-k][j]);
+                }
+                tmp -= image->matrix[i][j];  //to delete one extra matrix[x][y] value (for k=0)
+                image->matrix[i][j] = (1/range)*tmp;
+                tmp = 0;
             }
         }
+    } 
+}
+
+void histogram_stretching(PGMimage* image)
+{
+    int local_max=0, local_min=255;
+    for(int i=0; i<image->row; ++i)
+        for(int j=0; j<image->col; ++j) {
+            int tmp = image->matrix[i][j];
+            if(tmp>local_max) 
+                local_max = tmp;
+            if(tmp<local_min) 
+                local_min = tmp;
+        }
+    image->max_gray = local_max;
+    //printf("local min: %d, local max_ %d\n", local_max, local_min);
+    for(int i=0; i<image->row; ++i)
+        for(int j=0; j<image->col; ++j)
+            image->matrix[i][j] = (image->matrix[i][j]-local_min)*MAX_PIXEL_VALUE/(local_max-local_min);
 }
