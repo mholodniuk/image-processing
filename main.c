@@ -9,7 +9,7 @@
 int main(int argc, char* argv[])
 {
     const char* file_path = "images/tests/test.pgm";
-    const char* input_image = "images/PGM/kubus.pgm";
+    const char* input_image = "images/PGM/Lena.pgm";
     char input = 0;
 
     Handler* handler = malloc(sizeof(Handler));
@@ -27,6 +27,7 @@ int main(int argc, char* argv[])
     printf("\t7 - Contouring\n");
     printf("\t8 - Horizontal blur\n");
     printf("\t9 - Histogram stretching\n");
+    printf("\ta - Mirror reflection\n");
     printf("\t0 - Exit\n");
 
     while(input != '0') {
@@ -105,7 +106,7 @@ int main(int argc, char* argv[])
                 break;
             }
             printf("Performing transformation - blur\n");
-            horizontal_blur(img, 2);
+            horizontal_blur(img);
             break;  
 
         case '9':
@@ -115,6 +116,15 @@ int main(int argc, char* argv[])
             }
             printf("Performing transformation - histogram stretching\n");
             histogram_stretching(img);
+            break;
+        
+        case 'a':
+            if(handler->isLoaded == false) {
+                printf("You need to load image first!\n");
+                break;
+            }
+            printf("Performing transformation - mirror reflection\n");
+            mirror_reflection(img);
             break;  
 
         case '0':

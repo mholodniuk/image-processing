@@ -52,24 +52,6 @@ void skip_comments(FILE *fp)
     }
 }
 
-// other function that skips comments line in a PGM file
-void skip_comments_mucha(FILE *fp)
-{
-    int ch = 0;
-    bool end = false;
-    char line[100];
-    
-    do {
-        if((ch=fgetc(fp)) == '#') {
-            if(fgets(line, sizeof(line), fp) == NULL) 
-                end = true;
-        }
-        else {
-            ungetc(ch, fp);
-        }
-    } while(ch=='#' && !end);
-}
-
 // function reads an image into PGMimage struct
 void readPGM(const char* file_name, PGMimage* image)
 {
@@ -189,24 +171,17 @@ void contouring(PGMimage* image)
         }
 }
 
-// does not work, but previous version worked ???
-void horizontal_blur(PGMimage* image, int range)
+// todo: add changeable range
+void horizontal_blur(PGMimage* image)
 {
-    int tmp = 0;
-    for(int i=0; i<image->row; ++i) {
+    for(int i=0; i<image->row; ++i)
         for(int j=0; j<image->col; ++j) {
-            if(i+range<image->row && i>range-1)
-            {
-                for(int k=0; k<range; ++k) {
-                    tmp += (image->matrix[i+k][j] + image->matrix[i-k][j]);
-                }
-                tmp -= image->matrix[i][j];  //to delete one extra matrix[x][y] value (for k=0)
-                image->matrix[i][j] = (1/range)*tmp;
-                tmp = 0;
+            if(i+2<image->row && i>1) {
+                image->matrix[i][j] = (int)(0.16667*(image->matrix[i-2][j] + image->matrix[i-1][j] 
+                    + image->matrix[i][j] + image->matrix[i+1][j] + image->matrix[i+2][j]));
             }
         }
-    } 
-}
+} 
 
 void histogram_stretching(PGMimage* image)
 {
@@ -220,8 +195,20 @@ void histogram_stretching(PGMimage* image)
                 local_min = tmp;
         }
     image->max_gray = local_max;
-    //printf("local min: %d, local max_ %d\n", local_max, local_min);
+    printf("local min: %d, local max_ %d\n", local_max, local_min);
     for(int i=0; i<image->row; ++i)
         for(int j=0; j<image->col; ++j)
             image->matrix[i][j] = (image->matrix[i][j]-local_min)*MAX_PIXEL_VALUE/(local_max-local_min);
+}
+
+void mirror_reflection(PGMimage* image)
+{
+    int** mirror_reflection = allocate_dynamic_matrix(image->row, image->col);
+
+    for(int i=0; i<image->row; ++i) {
+        for(int j=0; j<image->col; ++j) {
+            mirror_reflection[i][j] = image->matrix[i][image->col-j-1];
+        }
+    }
+    image->matrix = mirror_reflection;
 }
