@@ -4,7 +4,7 @@ CFLAGS=-Wall -I. -pedantic -g
 __start__: ./main
 	./main
 
-main: main.c PGMimage.o PPMimage.o Handler.o
+main: ppm.c  PPMimage.o Handler.o
 	${CC} ${CFLAGS} -o $@ $^ -lm
 
 %.o: %.c

@@ -27,6 +27,7 @@ void contouring(PGMimage* image);
 void horizontal_blur(PGMimage* image);
 void histogram_stretching(PGMimage* image);
 void mirror_reflection(PGMimage* image);
+void scale(PGMimage* image, unsigned int scale);
 
 
 #endif
