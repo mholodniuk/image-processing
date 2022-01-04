@@ -25,7 +25,7 @@ int*** allocate_dynamic_matrix_3D(int row, int col)
             perror("memory allocation failure!\n");
             exit(EXIT_FAILURE);
         }
-        for(int j=0; j<CHANNELS; ++j) {
+        for(int j=0; j<col; ++j) {
             ret_matrix[i][j] = (int*)malloc(sizeof(int)*CHANNELS);
 
             if(ret_matrix[i][j] == NULL) {
@@ -102,7 +102,7 @@ void readPPM(const char* file_name, PPMimage* image)
 void writePPM(const char* file_name, const PPMimage* image)
 {
     FILE* PPM_file;
-    const char* version = "P2";
+    const char* version = "P3";
     PPM_file = fopen(file_name, "wb");
 
     if(PPM_file == NULL) {

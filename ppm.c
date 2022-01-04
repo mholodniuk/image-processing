@@ -8,7 +8,7 @@
 int main(int argc, char* argv[])
 {
     const char* file_path = "images/tests/test.ppm";
-    const char* input_image = "images/PPM/Lena.ppm";
+    const char* input_image = "images/PPM/kubus.ppm";
     char input = 0;
 
     Handler* handler = malloc(sizeof(Handler));
@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 
         case '0':
             if(handler->isLoaded == true) {
-                deallocate_dynamic_matrix_3D(img->matrix, img->row, img-> row);  // deallocating here, bc user may not want to lose current image data
+                deallocate_dynamic_matrix_3D(img->matrix, img->row, img->col);  // deallocating here, bc user may not want to lose current image data
                 break;
             }
             break;
