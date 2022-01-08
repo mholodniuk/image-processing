@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
+#include "Utils.h"
 
 // function allocates 2D array for a PGM image
 int** allocate_dynamic_matrix(int row, int col)
@@ -33,23 +34,6 @@ void deallocate_dynamic_matrix(int** matrix, int row)
         free(matrix[i]);
     }
     free(matrix);
-}
-
-// function skips comments line in a PGM file
-void skip_comments(FILE *fp)
-{
-    int ch;
-    char line[100];
-    while((ch = fgetc(fp)) != EOF && isspace(ch)) {
-        ;
-    }
-    if(ch == '#') {
-        fgets(line, sizeof(line), fp);
-        skip_comments(fp);
-    }
-    else {
-        fseek(fp, -1, SEEK_CUR);
-    }
 }
 
 // function reads an image into PGMimage struct
@@ -93,13 +77,10 @@ void writePGM(const char* file_name, const PGMimage* image)
     PGM_file = fopen(file_name, "wb");
 
     if(PGM_file == NULL) {
-        printf("unable to access %s file", file_name);
-        //perror("cannot open file!\n");
+        printf("unable to access %s file\n", file_name);
         exit(EXIT_FAILURE);
     }
-    fprintf(PGM_file, "%s\n", version);
-    fprintf(PGM_file, "%d %d\n", image->col, image->row);
-    fprintf(PGM_file, "%d\n", image->max_gray);
+    fprintf(PGM_file, "%s\n %d %d\n %d\n", version, image->col, image->row, image-> max_gray);
     
     for(int i=0; i<image->row;++i) {
         for(int j=0; j<image->col; ++j) {
@@ -110,17 +91,6 @@ void writePGM(const char* file_name, const PGMimage* image)
 
     fclose(PGM_file);
     //deallocate_dynamic_matrix(image->matrix, image->row);
-}
-
-// function shows chosen image (ImageMagick required (for Linux))
-void show(const char* file_name)
-{
-    char command[100];
-    strcpy(command, "display ");
-    strcat(command, file_name);
-    strcat(command, " &");
-    //printf("%s\n", command);
-    system(command);
 }
 
 void negative(PGMimage* image)

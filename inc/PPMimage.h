@@ -19,10 +19,8 @@ void sprint(const char* name);
 
 int*** allocate_dynamic_matrix_3D(int row, int col);
 void deallocate_dynamic_matrix_3D(int*** matrix, int row, int col);
-void skip_comments(FILE *fp);
-void skip_comments_mucha(FILE *fp);
 void readPPM(const char* file_name, PPMimage* image);
 void writePPM(const char* file_name, const PPMimage* image);
-void show(const char* file_name);
+
 
 #endif

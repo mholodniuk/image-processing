@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdbool.h>
+#include "Utils.h"
 #include <math.h>
 
 #define CHANNELS 3
@@ -44,23 +45,6 @@ void deallocate_dynamic_matrix_3D(int*** matrix, int row, int col)
         free(matrix[i]);
     }
     free(matrix);
-}
-
-// function skips comments line in a PPM file
-void skip_comments(FILE *fp)
-{
-    int ch;
-    char line[100];
-    while((ch = fgetc(fp)) != EOF && isspace(ch)) {
-        ;
-    }
-    if(ch == '#') {
-        fgets(line, sizeof(line), fp);
-        skip_comments(fp);
-    }
-    else {
-        fseek(fp, -1, SEEK_CUR);
-    }
 }
 
 // function reads an image into PPMimage struct
@@ -126,13 +110,3 @@ void writePPM(const char* file_name, const PPMimage* image)
     //deallocate_dynamic_matrix(image->matrix, image->row);
 }
 
-// function shows chosen image (ImageMagick required (for Linux))
-void show(const char* file_name)
-{
-    char command[100];
-    strcpy(command, "display ");
-    strcat(command, file_name);
-    strcat(command, " &");
-    //printf("%s\n", command);
-    system(command);
-}

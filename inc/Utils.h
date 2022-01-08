@@ -1,7 +1,8 @@
-#ifndef HANDLER_H
-#define HANDLER_H
+#ifndef UTILS_H
+#define UTILS_H
 
 #include <stdbool.h>
+#include <stdio.h>
 
 typedef struct {
 
@@ -11,5 +12,7 @@ typedef struct {
 } Handler;
 
 void init_Handler(Handler* h);
+void show(const char* file_name);
+void skip_comments(FILE *fp);
 
 #endif
