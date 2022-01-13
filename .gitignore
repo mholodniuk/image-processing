@@ -60,3 +60,6 @@ pdf/*
 
 # text files
 *.txt
+
+# bins
+bin

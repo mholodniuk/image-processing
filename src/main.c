@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "PPMimage.h"
-#include "PGMimage.h"
-#include "Utils.h"
+#include "../inc/PPMimage.h"
+#include "../inc/PGMimage.h"
+#include "../inc/Utils.h"
 
 
 int main(int argc, char* argv[])
 {
-    const char* file_path = "../images/tests/test.pgm";
-    const char* input_image = "../images/PGM/kubus.pgm";
+    
+    const char* file_path = "images/tests/test.pgm";
+    const char* input_image = "images/PGM/kubus.pgm";
     char input = 0;
 
     Handler* handler = malloc(sizeof(Handler));
@@ -141,6 +142,7 @@ int main(int argc, char* argv[])
     }
 
     return 0;
+    
 }
 
 /*

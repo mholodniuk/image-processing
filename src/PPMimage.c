@@ -1,10 +1,10 @@
-#include "PPMimage.h"
+#include "../inc/PPMimage.h"
+#include "../inc/Utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #include <stdbool.h>
-#include "Utils.h"
 #include <math.h>
 
 #define CHANNELS 3

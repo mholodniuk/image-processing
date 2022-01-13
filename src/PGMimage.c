@@ -1,11 +1,11 @@
-#include "PGMimage.h"
+#include "../inc/PGMimage.h"
+#include "../inc/Utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
-#include "Utils.h"
 
 // function allocates 2D array for a PGM image
 int** allocate_dynamic_matrix(int row, int col)
@@ -44,7 +44,7 @@ void readPGM(const char* file_name, PGMimage* image)
     PGM_file = fopen(file_name, "rb");
 
     if(PGM_file == NULL) {
-        printf("unable to access %s file", file_name);
+        printf("unable to access %s file\n", file_name);
         //perror("cannot open file!\n");
         exit(EXIT_FAILURE);
     }
