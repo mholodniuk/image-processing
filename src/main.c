@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     Handler* handler = malloc(sizeof(Handler));
     init_Handler(handler);
     PGMimage* img = malloc(sizeof(PGMimage));
-    printf(" size of PGMimage structure: %ld \n\n", sizeof(img));
+    //printf(" size of PGMimage structure: %ld \n\n", sizeof(img));
 
     printf("\t\tMenu\n");
     printf("\t1 - Load an image\n");
@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
 
         case '0':
             if(handler->isLoaded == true) {
-                deallocate_dynamic_matrix(img->matrix, img->row);  // deallocating here, bc user may not want to lose current image data
+                deallocate_dynamic_matrix(img->matrix, img->row);  // deallocating here, because user may not want to lose current image data
                 break;
             }
             break;

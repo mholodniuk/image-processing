@@ -8,8 +8,9 @@ LDIR =../lib
 LIBS=-lm
 
 _DEPS = PGMimage.h PPMimage.h Utils.h
-DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS)) 
-# ^ Performs a textual replacement on the text text: each occurrence of from is replaced by to.
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+#        ^^^^^^^^
+#   Performs a textual replacement on the text text: each occurrence of from is replaced by to.
 #   The result is substituted for the function call.
 
 _OBJ = main.o PGMimage.o PPMimage.o Utils.o
