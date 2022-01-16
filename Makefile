@@ -18,10 +18,7 @@ TEST=tests
 TESTS=$(wildcard $(TEST)/*.c)
 TESTBINS=$(patsubst $(TEST)/%.c, $(TEST)/bin/%, $(TESTS))
 
-all: $(LIB)
-
-$(LIB): $(LIBDIR) $(OBJ) $(OBJS)
-	ar -crvs $(LIB) $(OBJS)
+all: $(BIN)
 
 $(BIN): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LIBS)
@@ -30,7 +27,7 @@ $(OBJ)/%.o: $(SRC)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ 
 
 $(TEST)/bin/%: $(TEST)/%.c
-	$(CC) $(CFLAGS) $< $(OBJS) -o $@ $(LIBS) -lcriterion
+	$(CC) $(CFLAGS) $< $(OBJS) -o $@ $(LIBS) -Wl,-rpath,/usr/local/lib/x86_64-linux-gnu -lcriterion
 
 $(TEST)/bin:
 	mkdir $@
