@@ -2,6 +2,7 @@
 #define PPMIMAGE_H
 
 #include <stdio.h>
+#include "PGMimage.h"
 
 #define MAX_PIXEL_VALUE 255
 #define MIN_PIXEL_VALUE 0
@@ -21,6 +22,7 @@ int*** allocate_dynamic_matrix_3D(int row, int col);
 void deallocate_dynamic_matrix_3D(int*** matrix, int row, int col);
 void readPPM(const char* file_name, PPMimage* image);
 void writePPM(const char* file_name, const PPMimage* image);
+PGMimage* convert_to_PGM(PPMimage* image);
 
 
 #endif

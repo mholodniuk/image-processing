@@ -1,3 +1,4 @@
+/*
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -144,18 +145,19 @@ int main(int argc, char* argv[])
     return 0;
     
 }
+*/
 
-/*
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "PPMimage.h"
-#include "Handler.h"
-
+#include "../inc/PPMimage.h"
+#include "../inc/PGMimage.h"
+#include "../inc/Utils.h"
 
 int main(int argc, char* argv[])
 {
     const char* file_path = "images/tests/test.ppm";
+    const char* conversion_test = "images/tests/test_convert.pgm";
     const char* input_image = "images/PPM/kubus.ppm";
     char input = 0;
 
@@ -163,11 +165,14 @@ int main(int argc, char* argv[])
     init_Handler(handler);
     PPMimage* img = malloc(sizeof(PPMimage));
     printf("size of PPMimage structure: %ld \n\n", sizeof(img));
+    PGMimage* PGMimg;
+    //printf("size of PGMimage structure: %ld \n\n", sizeof(PGMimg));
 
     printf("\t\tMenu\n");
     printf("\t1 - Load an image\n");
     printf("\t2 - Save an image\n");
     printf("\t3 - Show saved image\n");
+    printf("\t4 - Convert to PGM\n");
     printf("\t0 - Exit\n");
 
     while(input != '0') {
@@ -204,6 +209,17 @@ int main(int argc, char* argv[])
             show(file_path);
             break;
 
+        case '4':
+            if(handler->isLoaded == false) {
+                printf("You need to save image first!\n");
+                break;
+            }
+            printf("Converting image...\n");
+            PGMimg = convert_to_PGM(img);
+            writePGM(conversion_test, PGMimg);
+            show(conversion_test);
+            break;
+
         case '0':
             if(handler->isLoaded == true) {
                 deallocate_dynamic_matrix_3D(img->matrix, img->row, img->col);  // deallocating here, bc user may not want to lose current image data
@@ -219,5 +235,3 @@ int main(int argc, char* argv[])
 
     return 0;
 }
-
-*/

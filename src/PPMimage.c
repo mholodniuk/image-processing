@@ -110,3 +110,22 @@ void writePPM(const char* file_name, const PPMimage* image)
     //deallocate_dynamic_matrix(image->matrix, image->row);
 }
 
+PGMimage* convert_to_PGM(PPMimage* image)
+{
+    PGMimage* final_image;
+    final_image = (PGMimage*)malloc(sizeof(PGMimage));
+    final_image->col = image->col;
+    final_image->row = image->row;
+    final_image->max_gray = image->max_gray;
+
+    final_image->matrix = allocate_dynamic_matrix(final_image->row, final_image->col);
+
+    for(int i = 0; i < final_image->row; ++i) {
+        for(int j = 0; j < final_image->col; ++j) {
+            final_image->matrix[i][j] = (image->matrix[i][j][0]+image->matrix[i][j][1]+image->matrix[i][j][2])/3;
+        }
+    }
+    deallocate_dynamic_matrix_3D(image->matrix, image->row, image->col);
+    
+    return final_image;
+}
