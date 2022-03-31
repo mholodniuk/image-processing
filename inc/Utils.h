@@ -11,8 +11,10 @@ typedef struct {
 
 } Handler;
 
-void init_Handler(Handler* h);
 void show(const char* file_name);
+void init_Handler(Handler* h);
 void skip_comments(FILE *fp);
+void run_PGM();
+void run_PPM();
 
 #endif

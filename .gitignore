@@ -63,3 +63,6 @@ pdf/*
 
 # bins
 bin
+
+# objs
+obj/
